@@ -2,6 +2,7 @@ package jp.ac.titech.itpro.sdl.hilbert;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +17,9 @@ public class MainActivity extends AppCompatActivity {
     private Button decButton;
     private Button incButton;
 
+    private final static String TAG = "MainActivity";
+    private final static String KEY_NAME = "ORDER";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
         hilbertView = findViewById(R.id.hilbert_view);
         decButton = findViewById(R.id.dec_button);
         incButton = findViewById(R.id.inc_button);
+
+        if (savedInstanceState != null) {
+            order = savedInstanceState.getInt(KEY_NAME);
+        }
 
         decButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,5 +69,12 @@ public class MainActivity extends AppCompatActivity {
         if (BuildConfig.DEBUG && !f) {
             throw new AssertionError(message);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState");
+        outState.putInt(KEY_NAME, order);
     }
 }
